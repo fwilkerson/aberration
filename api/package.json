@@ -1,7 +1,7 @@
 {
-  "name": "aberration",
+  "name": "aberration-api",
   "version": "0.0.0",
-  "description": "something different",
+  "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -13,8 +13,14 @@
   "bugs": {
     "url": "https://github.com/fwilkerson/aberration/issues"
   },
-  "homepage": "https://github.com/fwilkerson/aberration#readme",
+  "scripts": {
+    "test": "tape -r ts-node/register src/**/*.test.ts | tap-difflet"
+  },
   "devDependencies": {
-    "prettier": "^1.12.1"
+    "@types/tape": "^4.2.32",
+    "tap-difflet": "^0.7.1",
+    "tape": "^4.9.0",
+    "ts-node": "^6.0.3",
+    "typescript": "^2.8.3"
   }
 }
