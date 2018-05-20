@@ -1,0 +1,28 @@
+{
+  "name": "aberration",
+  "version": "0.0.0",
+  "description": "something different",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape -r ts-node/register tests/**/*.test.ts | tap-difflet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwilkerson/aberration.git"
+  },
+  "keywords": [],
+  "author": "Frank A. Wilkerson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fwilkerson/aberration/issues"
+  },
+  "homepage": "https://github.com/fwilkerson/aberration#readme",
+  "devDependencies": {
+    "@types/tape": "^4.2.32",
+    "prettier": "^1.12.1",
+    "tap-difflet": "^0.7.1",
+    "tape": "^4.9.0",
+    "ts-node": "^6.0.3",
+    "typescript": "^2.8.3"
+  }
+}
