@@ -16,5 +16,8 @@
   "homepage": "https://github.com/fwilkerson/aberration#readme",
   "devDependencies": {
     "prettier": "^1.12.1"
+  },
+  "dependencies": {
+    "lit-html": "^0.10.0"
   }
 }
