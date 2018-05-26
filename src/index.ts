@@ -1,10 +1,19 @@
-import {render} from 'lit-html/lib/lit-extended';
+import {render, html} from 'lit-html/lib/lit-extended';
 
-import {shell} from './components/shell';
 import {store} from './store';
+import {navbar} from './components/navbar';
+import {asyncView} from './components/async-view';
 
-render(shell(store.getState(), store.dispatch), document.body);
+import './shell.scss';
 
-store.subscribe(() => {
-  render(shell(store.getState(), store.dispatch), document.body);
-});
+function renderShell() {
+  const shell = html`
+    ${navbar()}
+    ${asyncView(import('./components/todo-list'))}
+  `;
+  render(shell, document.body);
+}
+
+renderShell();
+
+store.subscribe(renderShell);

@@ -48,6 +48,7 @@ module.exports = {
     }),
     new PreloadWebpackPlugin(),
   ],
+
   devServer: {
     port: 3000,
     historyApiFallback: {
