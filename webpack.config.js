@@ -1,13 +1,16 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
 
   output: {
     filename: '[name].[chunkhash].js',
-    chunkFilename: 'chunk.[chunkhash].js',
+    chunkFilename: 'chunk[name].[chunkhash].js',
   },
 
   resolve: {extensions: ['.ts', '.js']},
@@ -30,21 +33,28 @@ module.exports = {
     ],
   },
 
+  optimization: {
+    minimizer: [new UglifyJsPlugin({extractComments: true})],
+  },
+
   plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new CopyWebpackPlugin(['public']),
+    new MiniCSSExtractPlugin({
+      filename: '[name].[hash].css',
+      chunkFilename: 'chunk[id].[hash].css',
+    }),
     new HTMLPlugin({
       favicon: './public/images/favicon.png',
       minify: {
-        removeAttributeQuotes: true,
         collapseWhitespace: true,
         html5: true,
+        minifyCSS: true,
+        removeAttributeQuotes: true,
         removeComments: true,
         removeEmptyAttributes: true,
       },
       template: './public/index.html',
-    }),
-    new MiniCSSExtractPlugin({
-      filename: '[name].[hash].css',
-      chunkFilename: 'chunk.[hash].css',
     }),
     new PreloadWebpackPlugin(),
   ],

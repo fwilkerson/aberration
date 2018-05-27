@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "lit-html": "^0.10.0",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.48",
@@ -29,6 +30,8 @@
     "@babel/preset-env": "^7.0.0-beta.48",
     "@babel/preset-typescript": "^7.0.0-beta.48",
     "babel-loader": "^8.0.0-beta.3",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.4.0",
@@ -38,8 +41,10 @@
     "sass-loader": "^7.0.1",
     "serve": "^6.5.8",
     "typescript": "^2.8.3",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "workerize-loader": "^1.0.3"
   }
 }

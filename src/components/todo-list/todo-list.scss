@@ -7,7 +7,7 @@
 .filterButton {
   background-color: transparent;
   border: none;
-  color: #566b78;
+  color: #363636;
   cursor: pointer;
   font-size: 1em;
   font-variant: small-caps;
@@ -16,12 +16,18 @@
   &.active {
     font-weight: 600;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 .content {
   margin: 2rem auto;
   max-width: 50rem;
   padding: 2rem;
+  & > ul {
+    list-style: none;
+  }
 }
 
 .todoInput {
