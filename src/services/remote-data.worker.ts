@@ -18,6 +18,7 @@ export function deleteTodo(id: number): Promise<boolean> {
 
 export function getTodos(): Promise<Todo[]> {
   return sleep().then(() => [
+    {id: idFactory.next(), text: 'Routing', completed: false},
     {id: idFactory.next(), text: 'Unit tests?', completed: false},
   ]);
 }
