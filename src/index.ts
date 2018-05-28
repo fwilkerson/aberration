@@ -1,13 +1,15 @@
 import {render, html} from 'lit-html/lib/lit-extended';
-import {until} from 'lit-html/lib/until';
 
+import {navbar} from './components';
+import {moduleLoader} from './lib';
 import {store} from './store';
-import {loading, navbar} from './components';
+
+const asyncTodoList = moduleLoader(() => import('./modules/todo-list'));
 
 function renderShell() {
   const shell = html`
     ${navbar()}
-    ${until(import('./modules/todo-list').then(x => x.default()), loading())}
+    ${asyncTodoList()}
   `;
   render(shell, document.body);
 }

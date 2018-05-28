@@ -46,6 +46,7 @@ function dispatchToProps(
       dispatch({type: CREATING_TODO, payload: todo});
       dataService.createTodo(target.value).then(created => {
         dispatch({type: CREATE_TODO, payload: created});
+        target.focus();
       });
       target.value = '';
     },
