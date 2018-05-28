@@ -15,7 +15,6 @@ export const todoItem = ({deleteTodo, toggleTodo, ...todo}: Props) => html`
     [styles.hasPendingChanges]: todo.hasPendingChanges,
   })}">
     <button
-      class$="${styles.emojiButton}"
       disabled=${todo.hasPendingChanges}
       on-click=${() => deleteTodo(todo.id)}>🗑️</button>
     <button

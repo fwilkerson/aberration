@@ -23,7 +23,7 @@
   margin: 2rem auto;
   max-width: 50rem;
   padding: 2rem;
-  & > ul {
+  & ul {
     list-style: none;
   }
 }
@@ -55,15 +55,11 @@
     font-size: 20px;
     padding: 0;
   }
-  & > .emojiButton {
-    float: left;
-    margin-right: 1rem;
-  }
   & p {
     font-style: italic;
     font-weight: 400;
     margin: 0;
-    text-decoration-line: none;
+    padding: 0 1rem;
   }
   &.completed p {
     text-decoration-line: line-through;

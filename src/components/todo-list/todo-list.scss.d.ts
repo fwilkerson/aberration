@@ -5,7 +5,6 @@ interface ILoadingSCSS {
   content: string;
   todoInput: string;
   todo: string;
-  emojiButton: string;
   completed: string;
   hasPendingChanges: string;
 }
