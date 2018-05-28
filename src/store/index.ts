@@ -16,39 +16,70 @@ export interface Todo {
 
 export interface State {
   filter: Filter;
+  isCreating: boolean;
+  pendingChanges: {[key: number]: {old: Todo}};
   todos: Todo[];
 }
 
 const init: State = {
   filter: Filter.All,
+  isCreating: false,
+  pendingChanges: {},
   todos: [],
 };
 
+export const CREATING_TODO = 'CREATING_TODO';
 export const CREATE_TODO = 'CREATE_TODO';
+export const DELETING_TODO = 'DELETING_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const RECEIVE_TODOS = 'RECEIVE_TODOS';
 export const SET_ACTIVE_FILTER = 'SET_ACTIVE_FILTER';
-export const TOGGLE_TODO = 'TOGGLE_TODO';
+export const UPDATING_TODO = 'UPDATING_TODO';
+export const UPDATE_TODO = 'UPDATE_TODO';
 
-const handler: {[key: string]: (prev: State, payload: any) => any} = {
-  [CREATE_TODO]: ({todos}: State, todo: Todo) => {
-    return {todos: todos.concat(todo)};
+type Handler = {[key: string]: (prev: State, payload: any) => Partial<State>};
+
+const handler: Handler = {
+  [CREATING_TODO]: ({todos}: State, todo: Todo): Partial<State> => {
+    return {todos: todos.concat(todo), isCreating: true};
   },
-  [DELETE_TODO]: ({todos}: State, todoId: number) => {
-    return {todos: todos.filter(todo => todo.id !== todoId)};
+  [CREATE_TODO]: ({todos}: State, todo: Todo): Partial<State> => {
+    return {todos: todos.map(x => (x.id === -1 ? todo : x)), isCreating: false};
   },
-  [RECEIVE_TODOS]: (prev: State, todos: Todo[]) => {
+  [DELETING_TODO]: (prev: State, todoId: number): Partial<State> => {
+    const {pendingChanges, todos} = prev;
+    const toDelete = todos.find(x => x.id === todoId);
+    if (!toDelete) return prev; // Todo: Handle Error
+    return {pendingChanges: {...pendingChanges, [todoId]: {old: toDelete}}};
+  },
+  [DELETE_TODO]: (prev: State, todoId: number): Partial<State> => {
+    let next = {...prev.pendingChanges};
+    delete next[todoId];
+    return {
+      todos: prev.todos.filter(todo => todo.id !== todoId),
+      pendingChanges: next,
+    };
+  },
+  [RECEIVE_TODOS]: (prev: State, todos: Todo[]): Partial<State> => {
     return {todos};
   },
-  [SET_ACTIVE_FILTER]: (prev: State, filter: Filter) => {
+  [SET_ACTIVE_FILTER]: (prev: State, filter: Filter): Partial<State> => {
     return {filter};
   },
-  [TOGGLE_TODO]: ({todos}: State, todoId: number) => {
-    const next = todos.map(todo => {
-      return todo.id === todoId ? {...todo, completed: !todo.completed} : todo;
-    });
-
-    return {todos: next};
+  [UPDATING_TODO]: (prev: State, todo: Todo): Partial<State> => {
+    const {todos, pendingChanges} = prev;
+    const toUpdate = todos.find(x => x.id === todo.id);
+    if (!toUpdate) return prev; // Todo: Handle Error
+    const next = todos.map(x => (x.id === todo.id ? todo : x));
+    return {
+      todos: next,
+      pendingChanges: {...pendingChanges, [todo.id]: {old: toUpdate}},
+    };
+  },
+  [UPDATE_TODO]: ({pendingChanges}: State, todo: Todo) => {
+    let next = {...pendingChanges};
+    delete next[todo.id];
+    return {pendingChanges: next};
   },
 };
 

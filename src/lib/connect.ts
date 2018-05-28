@@ -5,7 +5,7 @@ import {State, store} from '../store';
 
 export function connect<T>(
   stateToProps: (state: State) => Partial<T>,
-  dispatchToProps?: (dispatch: Dispatch) => Partial<T>,
+  dispatchToProps?: (dispatch: Dispatch, getState: () => State) => Partial<T>,
   initialize?: (dispatch: Dispatch, getState: () => State) => void
 ) {
   initialize && initialize(store.dispatch, store.getState());
@@ -15,7 +15,7 @@ export function connect<T>(
     return viewFunction(Object.assign(
       {},
       stateToProps(store.getState()),
-      dispatchToProps && dispatchToProps(store.dispatch),
+      dispatchToProps && dispatchToProps(store.dispatch, store.getState),
       props
     ) as T);
   };

@@ -1,16 +1,27 @@
 import {html} from 'lit-html/lib/lit-extended';
 
-import {Todo} from '../../store';
+import {ExtendedTodo} from '../todo-list';
+import {classNames} from '../utils';
 import styles from './todo-list.scss';
 
-export interface Props extends Todo {
+export interface Props extends ExtendedTodo {
   deleteTodo: (id: number) => void;
-  toggleTodo: (id: number) => void;
+  toggleTodo: (todo: ExtendedTodo) => void;
 }
 
 export const todoItem = ({deleteTodo, toggleTodo, ...todo}: Props) => html`
-  <li class$="${styles.todo + (todo.completed ? ' ' + styles.completed : '')}">
-    <span on-click=${() => deleteTodo(todo.id)}>🗑️</span>
-    <p on-click=${() => toggleTodo(todo.id)}>${todo.text}</p>
+  <li class$="${classNames(styles.todo, {
+    [styles.completed]: todo.completed,
+    [styles.hasPendingChanges]: todo.hasPendingChanges,
+  })}">
+    <button
+      class$="${styles.emojiButton}"
+      disabled=${todo.hasPendingChanges}
+      on-click=${() => deleteTodo(todo.id)}>🗑️</button>
+    <button
+      disabled=${todo.hasPendingChanges}
+      on-click=${() => toggleTodo(todo)}>
+      <p>${todo.text}</p>
+    </button>
   </li>
 `;
